@@ -1,0 +1,25 @@
+{
+  "name": "time-api",
+  "version": "1.0.0",
+  "description": "Business time applicant api node server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almcaffee/time-api.git"
+  },
+  "author": "Ollie Tinsley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/almcaffee/time-api/issues"
+  },
+  "homepage": "https://github.com/almcaffee/time-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mysql": "^2.16.0"
+  }
+}
