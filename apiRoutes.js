@@ -5,8 +5,8 @@ var routes = function () {
 
     // Get
     apiRouter.get('/login/user/:user/lastname/:lastname', apiController.apiLogin);
-    apiRouter.get('/profile/:id', apiController.getProfile);
-    apiRouter.get('/time/:employeeid', apiController.getTime);
+    apiRouter.get('/profile/id/:id', apiController.getProfile);
+    apiRouter.get('/time/id/:employeeid', apiController.getTime);
     // apiRouter.get('/profile/:id/date/:date', apiController.getDate);
     // apiRouter.get('/profile/:id/year/:yr', apiController.getYear);
     // apiRouter.get('/profile/:id/month/:mo/year/:yr', apiController.getMonth);

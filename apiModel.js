@@ -21,7 +21,7 @@ var apiModel = function () {
       getConnection(loginProfile);
     };
 
-    var getProfile =  function(user, lastname, callback) {
+    var getProfile =  function(id, callback) {
       function searchProfile(err, connection) {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
@@ -41,11 +41,11 @@ var apiModel = function () {
     };
 
     var getTime =  function(employeeid, callback) {
-      function searchProfile(err, connection) {
+      function searchTime(err, connection) {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE employeeid = "+connection.escape(employeeid)+" GROUP BY timesheetid ORDER BY date";
+              var select = "SELECT timesheetid, date, timetype, hours FROM time WHERE employeeid = "+connection.escape(employeeid);
               connection.query(select, function (err, rows) {
                   connection.release();
                   if (err) {
@@ -56,18 +56,18 @@ var apiModel = function () {
               });
             }
       }
-      getConnection(searchProfile);
+      getConnection(searchTime);
     };
 
-    var getTimeByPeriod =  function(start, end, callback) {
-      function searchProfile(err, connection) {
+    var getTimeByPeriod =  function(id, start, end, callback) {
+      function searchTimePeriod(err, connection) {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE employeeid = "+connection.escape(employeeid);
-              select+= " WHERE STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
+              var select = "SELECT timesheetid, date, timetype, hours FROM time WHERE employeeid = "+connection.escape(id);
+              select+= " AND STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') <= STR_TO_DATE("+connection.escape(end)+", '%Y-%m-%d')";
-              select+= " GROUP BY timesheetid ORDER BY date";
+              select+= " ORDER BY date";
               console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
@@ -79,7 +79,7 @@ var apiModel = function () {
               });
             }
       }
-      getConnection(searchProfile);
+      getConnection(searchTimePeriod);
     };
 
     return {

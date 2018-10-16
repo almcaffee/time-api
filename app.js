@@ -16,9 +16,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+var port = process.env.PORT;
 var apiRouter = require('./apiRoutes')();
-app.use('/api', apiRouter); 
 
+app.use('/api', apiRouter);
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     res.status(401);
@@ -28,6 +29,16 @@ app.use(function (err, req, res, next) {
   }
 });
 
-http.createServer(app).listen(8000, function () {
+app.get('*', function (req, res) {
+    res.status(404).json({success: false, message: 'Incorrect API path'});
+});
+
+process.on('warning', (warning) => {
+  console.warn(warning.name);    // Print the warning name
+  console.warn(warning.message); // Print the warning message
+  console.warn(warning.stack);   // Print the stack trace
+});
+
+http.createServer(app).listen(port, function () {
     console.log('The api is running on port 8000');
 });

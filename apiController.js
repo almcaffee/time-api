@@ -4,9 +4,9 @@ var apiController = function () {
 
     var apiLogin = function (req, res) {
         if (!req.params.user) {
-            return res.status(401).json({ error: { message: 'Unauthorized, user name is required', required: ['user'] }});
+            return res.status(400).json({ error: { message: 'Unauthorized, user name is required', required: ['user'] }});
         } else if (!req.params.lastname) {
-            return res.status(401).json({ error: { message: 'Unauthorized, last name is required', required: ['lastname'] }});
+            return res.status(400).json({ error: { message: 'Unauthorized, last name is required', required: ['lastname'] }});
         } else {
             apiModel.apiLogin(req.params.user, req.params.lastname, function (err, rows) {
                 if (!err) {
@@ -16,7 +16,7 @@ var apiController = function () {
                      res.status(404).json({ error: { message: 'Unable to login with those credentials'} });
                    }
                 } else {
-                    res.status(err.code).json({ error: { message: err.error} });
+                    res.status(500).json({ error: { message: err.error} });
                 }
             });
         }
@@ -34,7 +34,7 @@ var apiController = function () {
                      res.status(404).json({ error: { message: 'User not found'} });
                    }
                 } else {
-                    res.status(err.code).json({ error: { message: err.error} });
+                    res.status(500).json({ error: { message: err.error} });
                 }
             });
         }
@@ -44,15 +44,16 @@ var apiController = function () {
         if (!req.params.employeeid) {
             return res.status(401).json({ error: { message: 'Employee id required', required: ['id'] }});
         } else {
-            apiModel.getProfile(req.params.employeeid, function (err, rows) {
+            apiModel.getTime(req.params.employeeid, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     console.log(rows.length)
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for this employee'} });
                    }
                 } else {
-                    res.status(err.code).json({ error: { message: err.error } });
+                    res.status(500).json({ error: { message: err.error } });
                 }
             });
         }
@@ -64,15 +65,16 @@ var apiController = function () {
         } else if (!req.body.endDate) {
             return res.status(401).json({ error: { message: 'End date required', required: ['endDate'] }});
         } else {
-            apiModel.getProfile(req.body.startDate, req.body.endDate, function (err, rows) {
+            apiModel.getTimeByPeriod(req.body.id, req.body.startDate, req.body.endDate, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     console.log(rows.length)
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for this employee'} });
                    }
                 } else {
-                    res.status(err.code).json({ error: { message: err.error } });
+                    res.status(500).json({ error: { message: err.error } });
                 }
             });
         }
