@@ -6,23 +6,27 @@ var routes = function () {
     // Get
     apiRouter.get('/login/user/:user/lastname/:lastname', apiController.apiLogin);
     apiRouter.get('/profile/id/:id', apiController.getProfile);
+    apiRouter.get('/time/date/:date', apiController.getAllTimeByDate);
+    apiRouter.get('/time/id/:employeeid/date/:date', apiController.getTimeByDate);
     apiRouter.get('/time/id/:employeeid', apiController.getTime);
+    apiRouter.get('/time/id/:id/start/:start/end/:end', apiController.getTimeByPeriod);
+    apiRouter.get('/time/start/:start/end/:end', apiController.getAllTimeByPeriod);
     // apiRouter.get('/profile/:id/date/:date', apiController.getDate);
     // apiRouter.get('/profile/:id/year/:yr', apiController.getYear);
     // apiRouter.get('/profile/:id/month/:mo/year/:yr', apiController.getMonth);
 
     // Post
-    // apiRouter.post('/profile/:id/time', apiController.insertTime);
-    // apiRouter.post('/profile/create', apiController.insertProfile);
-    apiRouter.post('/time/period', apiController.getTimeByPeriod);
-
+    // apiRouter.post('/profile', apiController.createProfile);
+    // apiRouter.post('/time', apiController.insertTime);
 
     // Delete
     // apiRouter.delete('/profile/:id', apiController.deleteProfile);
+    // apiRouter.delete('/time/:id', apiController.deleteTime);
 
     // PUT
-    // apiRouter.put('/profile/:id', apiController.updateProfile);
-    // apiRouter.put('/profile/:id/date/:date', apiController.inserttDate);
+    // apiRouter.put('/profile', apiController.updateProfile);
+    // apiRouter.put('/time/date', apiController.updateTimeByDate);
+    // apiRouter.put('/time/:id', apiController.updateTimeById);
 
 
     return apiRouter;
