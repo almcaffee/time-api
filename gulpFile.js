@@ -17,8 +17,8 @@ gulp.task('default', function () {
             pm2.start({
                 name: 'ramidx4',
                 script: 'app.js',
-                output: './pm2/logs/ramidx4-out.log',
-                error: './pm2/logs/ramidx4-error.log',
+                output: './pm2/logs/time-app.log',
+                error: './pm2/logs/time-app-error.log',
                 env: {
                     PORT: process.env.PORT || 8000
                 }

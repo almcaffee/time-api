@@ -41,10 +41,10 @@ var apiController = function () {
     };
 
     var getTime = function (req, res) {
-        if (!req.paramsid) {
-            return res.status(400).json({ error: { message: 'User id required', required: ['id'] }});
+        if (!req.params.id) {
+            return res.status(400).json({ error: { message: 'Id required', required: ['id'] }});
         } else {
-            timeModel.getTime(req.params.id, function (err, rows) {
+            apiModel.getTime(req.params.id, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
@@ -59,12 +59,12 @@ var apiController = function () {
     };
 
     var getTimeByDate = function (req, res) {
-        if (!req.body.date) {
+        if (!req.params.date) {
             return res.status(401).json({ error: { message: 'Date required', required: ['date'] }});
-        } else if (!req.body.id) {
+        } else if (!req.params.id) {
             return res.status(401).json({ error: { message: 'Id required', required: ['id'] }});
         } else {
-            timeModel.getTimeByDate(req.body.id, req.body.date, function (err, rows) {
+            apiModel.getTimeByDate(req.params.id, req.params.date, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
@@ -79,15 +79,15 @@ var apiController = function () {
     };
 
     var getAllTimeByDate = function (req, res) {
-        if (!req.body.date) {
+        if (!req.params.date) {
             return res.status(401).json({ error: { message: 'Date required', required: ['date'] }});
         } else {
-            timeModel.getAllTimeByDate(req.body.date, function (err, rows) {
+            apiModel.getAllTimeByDate(req.params.date, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
                    } else {
-                     res.status(404).json({ error: { message: 'No time entries found for '+req.body.date } });
+                     res.status(404).json({ error: { message: 'No time entries found for '+req.params.date } });
                    }
                 } else {
                     res.status(500).json({ error: { message: err.error } });
@@ -97,14 +97,14 @@ var apiController = function () {
     };
 
     var getTimeByPeriod = function (req, res) {
-        if (!req.body.startDate) {
-            return res.status(401).json({ error: { message: 'Start date required', required: ['startDate'] }});
-        } else if (!req.body.endDate) {
-            return res.status(401).json({ error: { message: 'End date required', required: ['endDate'] }});
-        } else if (!req.body.id) {
+        if (!req.params.start) {
+            return res.status(401).json({ error: { message: 'Start date required', required: ['start'] }});
+        } else if (!req.params.end) {
+            return res.status(401).json({ error: { message: 'End date required', required: ['end'] }});
+        } else if (!req.params.id) {
             return res.status(401).json({ error: { message: 'Id required', required: ['id'] }});
         } else {
-            timeModel.getTimeByPeriod(req.body.id, req.body.startDate, req.body.endDate, function (err, rows) {
+            apiModel.getTimeByPeriod(req.params.id, req.params.start, req.params.end, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
@@ -119,17 +119,17 @@ var apiController = function () {
     };
 
     var getAllTimeByPeriod = function (req, res) {
-        if (!req.body.startDate) {
-            return res.status(401).json({ error: { message: 'Start date required', required: ['startDate'] }});
-        } else if (!req.body.endDate) {
-            return res.status(401).json({ error: { message: 'End date required', required: ['endDate'] }});
+        if (!req.params.start) {
+            return res.status(401).json({ error: { message: 'Start date required', required: ['start'] }});
+        } else if (!req.params.end) {
+            return res.status(401).json({ error: { message: 'End date required', required: ['end'] }});
         } else {
-            timeModel.getAllTimeByPeriod(req.body.startDate, req.body.endDate, function (err, rows) {
+            apiModel.getAllTimeByPeriod(req.params.start, req.params.end, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
                    } else {
-                     res.status(404).json({ error: { message: 'No time entries for the period starting '+res.body.startDate+' and ending '+res.body.endDate } });
+                     res.status(404).json({ error: { message: 'No time entries for the period starting '+res.body.start+' and ending '+res.body.end } });
                    }
                 } else {
                     res.status(500).json({ error: { message: err.error } });

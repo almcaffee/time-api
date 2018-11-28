@@ -7,9 +7,9 @@ var routes = function () {
     apiRouter.get('/login/user/:user/lastname/:lastname', apiController.apiLogin);
     apiRouter.get('/profile/id/:id', apiController.getProfile);
     apiRouter.get('/time/date/:date', apiController.getAllTimeByDate);
-    apiRouter.get('/time/id/:employeeid/date/:date', apiController.getTimeByDate);
-    apiRouter.get('/time/id/:employeeid', apiController.getTime);
     apiRouter.get('/time/id/:id/start/:start/end/:end', apiController.getTimeByPeriod);
+    apiRouter.get('/time/id/:id/date/:date', apiController.getTimeByDate);
+    apiRouter.get('/time/id/:id', apiController.getTime);
     apiRouter.get('/time/start/:start/end/:end', apiController.getAllTimeByPeriod);
     // apiRouter.get('/profile/:id/date/:date', apiController.getDate);
     // apiRouter.get('/profile/:id/year/:yr', apiController.getYear);
