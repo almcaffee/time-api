@@ -53,9 +53,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE id = "+connection.escape(id);
-              if(id === 1 || id === '1') select+= " OR employeeid = '00001'";
-              select+= " ORDER BY date desc";
+              var select = "SELECT * FROM time_entry WHERE profileId = "+connection.escape(id)+" ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
@@ -76,7 +74,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE employeeid = "+connection.escape(id);
+              var select = "SELECT * FROM time_entry WHERE employeeid = "+connection.escape(id);
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
               select+= " GROUP BY timesheetid ORDER BY date desc";
               console.log(select)
@@ -99,7 +97,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
+              var select = "SELECT * FROM time_entry WHERE STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
               select+= " GROUP BY timesheetid ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
@@ -121,7 +119,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE employeeid = "+connection.escape(id);
+              var select = "SELECT * FROM time_entry WHERE employeeid = "+connection.escape(id);
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') <= STR_TO_DATE("+connection.escape(end)+", '%Y-%m-%d')";
               select+= " GROUP BY timesheetid ORDER BY date desc";
@@ -145,7 +143,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
+              var select = "SELECT * FROM time_entry WHERE STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') <= STR_TO_DATE("+connection.escape(end)+", '%Y-%m-%d')";
               select+= " GROUP BY timesheetid ORDER BY date desc";
               console.log(select)
