@@ -3,12 +3,12 @@ var apiController = function () {
     var path = require('path');
 
     var apiLogin = function (req, res) {
-        if (!req.params.user) {
-            return res.status(400).json({ error: { message: 'Unauthorized, user name is required', required: ['user'] }});
+        if (!req.params.id) {
+            return res.status(400).json({ error: { message: 'Unauthorized, id is required', required: ['id'] }});
         } else if (!req.params.lastname) {
             return res.status(400).json({ error: { message: 'Unauthorized, last name is required', required: ['lastname'] }});
         } else {
-            apiModel.apiLogin(req.params.user, req.params.lastname, function (err, rows) {
+            apiModel.apiLogin(req.params.id, req.params.lastname, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
                      res.status(200).json(rows[0]);
@@ -47,7 +47,7 @@ var apiController = function () {
             apiModel.getTime(req.params.id, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for this user'} });
                    }
@@ -67,7 +67,7 @@ var apiController = function () {
             apiModel.getTimeByDate(req.params.id, req.params.date, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for this date'} });
                    }
@@ -85,7 +85,7 @@ var apiController = function () {
             apiModel.getAllTimeByDate(req.params.date, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for '+req.params.date } });
                    }
@@ -107,7 +107,7 @@ var apiController = function () {
             apiModel.getTimeByPeriod(req.params.id, req.params.start, req.params.end, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries found for this user'} });
                    }
@@ -127,7 +127,7 @@ var apiController = function () {
             apiModel.getAllTimeByPeriod(req.params.start, req.params.end, function (err, rows) {
                 if (!err) {
                    if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
+                     res.status(200).json(rows);
                    } else {
                      res.status(404).json({ error: { message: 'No time entries for the period starting '+res.body.start+' and ending '+res.body.end } });
                    }
@@ -138,6 +138,16 @@ var apiController = function () {
         }
     };
 
+    var getTimeCodes = function (req, res) {
+        apiModel.getTimeCodes(function (err, rows) {
+            if (!err) {
+               res.status(200).json(rows);
+            } else {
+               res.status(500).json({ error: { message: err.error } });
+            }
+        });
+    };
+
     return {
         apiLogin: apiLogin,
         getProfile: getProfile,
@@ -145,7 +155,8 @@ var apiController = function () {
         getAllTimeByPeriod: getAllTimeByPeriod,
         getTime: getTime,
         getTimeByDate: getTimeByDate,
-        getTimeByPeriod: getTimeByPeriod
+        getTimeByPeriod: getTimeByPeriod,
+        getTimeCodes: getTimeCodes
     };
 };
 

@@ -2,18 +2,19 @@ var apiModel = function () {
 
     const getConnection = require('./connection');
 
-    var apiLogin =  function(user, lastname, callback) {
+    var apiLogin =  function(id, lastname, callback) {
       function loginProfile(err, connection) {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT e.*, r.name AS role FROM employees e"
-              select += " LEFT OUTER JOIN time_roles r ON r.id = e.roleid";
-              select += " WHERE employeeid = "+connection.escape(user)+" AND lastname = "+connection.escape(lastname);
+              var select = "SELECT t.*, r.name AS role FROM time_profiles t"
+              select += " LEFT OUTER JOIN time_roles r ON r.id = t.roleid";
+              select += " WHERE t.id = "+connection.escape(id)+" AND lastname = "+connection.escape(lastname);
               console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
                   if (err) {
+                    console.log(err)
                     callback({ code: 500, err: err });
                   } else {
                     callback(null, rows);
@@ -30,7 +31,7 @@ var apiModel = function () {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
               var select = "SELECT e.*, r.name AS role FROM employees e"
-              select += " LEFT OUTER JOIN time_roles r ON r.id = e.roleid";
+              select += " LEFT OUTER JOIN time_roles r ON r.id = e.roleId";
               select += " WHERE employeeid = "+connection.escape(user)+" AND lastname = "+connection.escape(lastname);
               console.log(select)
               connection.query(select, function (err, rows) {
@@ -52,7 +53,10 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time WHERE id = "+connection.escape(id)+" GROUP BY timesheetid ORDER BY date desc";
+              var select = "SELECT * FROM time WHERE id = "+connection.escape(id);
+              if(id === 1 || id === '1') select+= " OR employeeid = '00001'";
+              select+= " ORDER BY date desc";
+              console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
                   if (err) {
@@ -158,6 +162,26 @@ var apiModel = function () {
       getConnection(findTimeByPeriod);
     };
 
+    var getTimeCodes =  function(callback) {
+      function getCodes(err, connection) {
+            if (err) {
+                callback({code: 500, message: "There was an error while connecting to the database", err: err});
+            } else {
+              var select = "SELECT * from time_types"
+              console.log(select)
+              connection.query(select, function (err, rows) {
+                  connection.release();
+                  if (err) {
+                    callback({ code: 500, err: err });
+                  } else {
+                    callback(null, rows);
+                  }
+              });
+            }
+      }
+      getConnection(getCodes);
+    };
+
     return {
         apiLogin: apiLogin,
         getProfile: getProfile,
@@ -165,7 +189,8 @@ var apiModel = function () {
         getAllTimeByPeriod: getAllTimeByPeriod,
         getTime: getTime,
         getTimeByDate: getTimeByDate,
-        getTimeByPeriod: getTimeByPeriod
+        getTimeByPeriod: getTimeByPeriod,
+        getTimeCodes: getTimeCodes,
     };
 };
 

@@ -4,8 +4,9 @@ var routes = function () {
     var apiController = require('./apiController')();
 
     // Get
-    apiRouter.get('/login/user/:user/lastname/:lastname', apiController.apiLogin);
+    apiRouter.get('/login/id/:id/lastname/:lastname', apiController.apiLogin);
     apiRouter.get('/profile/id/:id', apiController.getProfile);
+    apiRouter.get('/time/codes', apiController.getTimeCodes);
     apiRouter.get('/time/date/:date', apiController.getAllTimeByDate);
     apiRouter.get('/time/id/:id/start/:start/end/:end', apiController.getTimeByPeriod);
     apiRouter.get('/time/id/:id/date/:date', apiController.getTimeByDate);
