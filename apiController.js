@@ -10,11 +10,7 @@ var apiController = function () {
         } else {
             apiModel.apiLogin(req.params.id, req.params.lastname, function (err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
-                   } else {
-                     res.status(404).json({ error: { message: 'Unable to login with those credentials'} });
-                   }
+                    res.status(200).json(rows[0]);
                 } else {
                     res.status(500).json({ error: { message: err.error} });
                 }

@@ -2,10 +2,10 @@ var mysql = require('mysql');
 var maxListen = require('events').EventEmitter.prototype._maxListeners = 0;
 var pool = mysql.createPool({
     connectionLimit : 25,
-    host            : '74.127.59.134',
-    user            : 'coldfusion',
-    password        : '$enCryption7',
-    database        : 'projects',
+    host            : process.env.DB_HOST,
+    user            : process.env.DB_USR,
+    password        : process.env.DB_AUTH,
+    database        : process.env.DB_TBL,
     acquireTimeout: 1000,
     debug: false
 });

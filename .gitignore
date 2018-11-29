@@ -5,6 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Environment settings files
+*.env
+*.default
+
 # Runtime data
 pids
 *.pid

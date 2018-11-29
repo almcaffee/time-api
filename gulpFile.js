@@ -15,7 +15,7 @@ gulp.task('default', function () {
             pm2.streamLogs('all', 0);
 
             pm2.start({
-                name: 'ramidx4',
+                name: 'time-app',
                 script: 'app.js',
                 output: './pm2/logs/time-app.log',
                 error: './pm2/logs/time-app-error.log',
