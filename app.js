@@ -20,6 +20,8 @@ app.use(function (req, res, next) {
 var port = process.env.PORT;
 var apiRouter = require('./apiRoutes')();
 
+app.use(express.static('public'));
+
 app.use('/api', apiRouter);
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {

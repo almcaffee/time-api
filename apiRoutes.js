@@ -5,6 +5,9 @@ var routes = function () {
 
     // Get
     apiRouter.get('/login/id/:id/lastname/:lastname', apiController.apiLogin);
+    apiRouter.get('/department/id/:id', apiController.getDepartment);
+    apiRouter.get('/department', apiController.getAllDepartments);
+    apiRouter.get('/profile/img/id/:id', apiController.getProfileImage);
     apiRouter.get('/profile/id/:id', apiController.getProfile);
     apiRouter.get('/time/codes', apiController.getTimeCodes);
     apiRouter.get('/time/date/:date', apiController.getAllTimeByDate);
