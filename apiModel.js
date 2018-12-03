@@ -137,7 +137,7 @@ var apiModel = function () {
               // if(type of date === 'number')
               console.log(typeof date)
               select+= " AND STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
-              select+= " GROUP BY timesheetid ORDER BY date desc";
+              select+= " ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
@@ -215,8 +215,19 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT * FROM time_entry WHERE STR_TO_DATE(date, '%Y-%m-%d') >= STR_TO_DATE("+connection.escape(start)+", '%Y-%m-%d')";
-              select+= " AND STR_TO_DATE(date, '%Y-%m-%d') <= STR_TO_DATE("+connection.escape(end)+", '%Y-%m-%d')";
+              var select = "SELECT *, IF(editable='1', 'true', 'false') as editable FROM time_entry WHERE ";
+              if(start.match(/[0-9]/)) {
+                var s = moment(parseInt(start)).format('YYYY-MM-DD');
+                select+= "date >= "+connection.escape(s);
+              } else {
+                select+= "date >= "+connection.escape(start);
+              }
+              if(end.match(/[0-9]/)) {
+                var e = moment(parseInt(end)).format('YYYY-MM-DD');
+                select+= " AND date <= "+connection.escape(e);
+              } else {
+                select+= " AND date <= "+connection.escape(end);
+              }
               select+= " ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
