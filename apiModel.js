@@ -136,7 +136,7 @@ var apiModel = function () {
               var select = "SELECT *, IF(editable='1', 'true', 'false') as editable FROM time_entry WHERE employeeid = "+connection.escape(id);
               // if(type of date === 'number')
               console.log(typeof date)
-              select+= " AND STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
+              select+= " AND date = "+connection.escape(date);
               select+= " ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
@@ -158,7 +158,7 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT *, IF(editable='1', 'true', 'false') as editable FROM time_entry WHERE STR_TO_DATE(date, '%Y-%m-%d') = STR_TO_DATE("+connection.escape(date)+", '%Y-%m-%d')";
+              var select = "SELECT *, IF(editable='1', 'true', 'false') as editable FROM time_entry WHERE date = "+connection.escape(date);
               select+= " ORDER BY date desc";
               console.log(select)
               connection.query(select, function (err, rows) {
