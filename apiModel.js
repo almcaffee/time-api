@@ -91,13 +91,15 @@ var apiModel = function () {
             if (err) {
                 callback({code: 500, message: "There was an error while connecting to the database", err: err});
             } else {
-              var select = "SELECT img FROM time_profiles WHERE t.id = "+connection.escape(id)+" AND img IS NOT NULL";
+              var select = "SELECT img FROM time_profiles WHERE id = "+connection.escape(id)+" AND img IS NOT NULL";
               console.log(select)
               connection.query(select, function (err, rows) {
                   connection.release();
                   if (err) {
+                    console.log(err)
                     callback({ code: 500, err: err });
                   } else {
+                    console.log(rows)
                     callback(null, rows);
                   }
               });
