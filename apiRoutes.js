@@ -1,4 +1,4 @@
-var routes = function () {
+var routes = function() {
     var express = require('express');
     var apiRouter = express.Router();
     var apiController = require('./apiController')();
@@ -21,7 +21,7 @@ var routes = function () {
 
     // Post
     // apiRouter.post('/profile', apiController.createProfile);
-    // apiRouter.post('/time', apiController.insertTime);
+    apiRouter.post('/time', apiController.setTimeByDate);
 
     // Delete
     // apiRouter.delete('/profile/:id', apiController.deleteProfile);

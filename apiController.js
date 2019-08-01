@@ -1,36 +1,36 @@
-var apiController = function () {
+var apiController = function() {
     var apiModel = require('./apiModel')();
     var path = require('path');
     var fs = require("fs");
 
     // function to encode file data to base64 encoded string
-    var convertImgFile = function (file) {
+    var convertImgFile = function(file) {
         // read binary data
         var imgString = fs.readFileSync(file);
         // convert binary data to base64 encoded string
         return new Buffer(imgString).toString('base64');
     }
 
-    var apiLogin = function (req, res) {
+    var apiLogin = function(req, res) {
         if (!req.params.id) {
             return res.status(400).json({ message: 'Unauthorized, id is required', required: ['id'] });
         } else if (!req.params.lastname) {
             return res.status(400).json({ message: 'Unauthorized, last name is required', required: ['lastname'] });
         } else {
-            apiModel.apiLogin(req.params.id, req.params.lastname, function (err, rows) {
+            apiModel.apiLogin(req.params.id, req.params.lastname, function(err, rows) {
                 if (!err) {
-                  // Making seperate call to get photo
-                  // if(rows[0].img) {
-                  //   var pImg = __dirname + '/public/profiles/img/'+rows[0].img;
-                  //   var obj = rows[0];
-                  //   obj['img'] = convertImgFile(pImg);
-                  //   console.log(obj)
-                  //   res.status(200).json(obj);
-                  // } else {
-                  //   console.log(rows[0])
-                  //   res.status(200).json(rows[0]);
-                  // }
-                  res.status(200).json(rows[0]);
+                    // Making seperate call to get photo
+                    // if(rows[0].img) {
+                    //   var pImg = __dirname + '/public/profiles/img/'+rows[0].img;
+                    //   var obj = rows[0];
+                    //   obj['img'] = convertImgFile(pImg);
+                    //   console.log(obj)
+                    //   res.status(200).json(obj);
+                    // } else {
+                    //   console.log(rows[0])
+                    //   res.status(200).json(rows[0]);
+                    // }
+                    res.status(200).json(rows[0]);
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -38,17 +38,17 @@ var apiController = function () {
         }
     };
 
-    var getDepartment = function (req, res) {
+    var getDepartment = function(req, res) {
         if (!req.params.id) {
             return res.status(401).json({ message: 'Department ID required', required: ['id'] });
         } else {
-            apiModel.getDepartment(req.params.id, function (err, rows) {
+            apiModel.getDepartment(req.params.id, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     res.status(200).json(rows[0]);
-                   } else {
-                     res.status(404).json({ message: 'Department not found' });
-                   }
+                    if (rows.length > 0) {
+                        res.status(200).json(rows[0]);
+                    } else {
+                        res.status(404).json({ message: 'Department not found' });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -56,38 +56,38 @@ var apiController = function () {
         }
     };
 
-    var getAllDepartments = function (req, res) {
-        apiModel.getAllDepartments(function (err, rows) {
+    var getAllDepartments = function(req, res) {
+        apiModel.getAllDepartments(function(err, rows) {
             if (!err) {
-              res.status(200).json(rows);
+                res.status(200).json(rows);
             } else {
-              res.status(500).json({ message: err.error });
+                res.status(500).json({ message: err.error });
             }
         });
     };
 
-    var getProfile = function (req, res) {
+    var getProfile = function(req, res) {
         if (!req.params.id) {
             return res.status(401).json({ message: 'Profile ID required', required: ['id'] });
         } else {
-            apiModel.getProfile(req.params.id, function (err, rows) {
+            apiModel.getProfile(req.params.id, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     // Making seperate call to get photo
-                     // if(rows[0].img) {
-                     //   var pImg = __dirname + '/public/profiles/img/'+rows[0].img;
-                     //   var obj = rows[0];
-                     //   obj['img'] = convertImgFile(pImg);
-                     //   console.log(obj)
-                     //   res.status(200).json(obj);
-                     // } else {
-                     //   console.log(rows[0])
-                     //   res.status(200).json(rows[0]);
-                     // }
-                     res.status(200).json(rows[0]);
-                   } else {
-                     res.status(404).json({ message: 'User not found' });
-                   }
+                    if (rows.length > 0) {
+                        // Making seperate call to get photo
+                        // if(rows[0].img) {
+                        //   var pImg = __dirname + '/public/profiles/img/'+rows[0].img;
+                        //   var obj = rows[0];
+                        //   obj['img'] = convertImgFile(pImg);
+                        //   console.log(obj)
+                        //   res.status(200).json(obj);
+                        // } else {
+                        //   console.log(rows[0])
+                        //   res.status(200).json(rows[0]);
+                        // }
+                        res.status(200).json(rows[0]);
+                    } else {
+                        res.status(404).json({ message: 'User not found' });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -95,35 +95,35 @@ var apiController = function () {
         }
     };
 
-    var getProfileImage = function (req, res) {
-      apiModel.getProfileImage(req.params.id, function (err, rows) {
-        var file = __dirname + '/public/profiles/img/';
-        if (!err) {
-           if(rows.length > 0) {
-             file+= rows[0].img;
-           } else {
-             file+= 'default.png';
-           }
-        } else {
-            file+= 'default.png';
-        }
-        console.log(file)
-        res.status(200).sendFile(file);
-      });
+    var getProfileImage = function(req, res) {
+        apiModel.getProfileImage(req.params.id, function(err, rows) {
+            var file = __dirname + '/public/profiles/img/';
+            if (!err) {
+                if (rows.length > 0) {
+                    file += rows[0].img;
+                } else {
+                    file += 'default.png';
+                }
+            } else {
+                file += 'default.png';
+            }
+            console.log(file)
+            res.status(200).sendFile(file);
+        });
     };
 
-    var getTime = function (req, res) {
+    var getTime = function(req, res) {
         if (!req.params.id) {
             return res.status(400).json({ message: 'Id required', required: ['id'] });
         } else {
-            apiModel.getTime(req.params.id, function (err, rows) {
+            apiModel.getTime(req.params.id, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     rows.forEach(r=> r.editable = (r.editable === 'true'));
-                     res.status(200).json(rows);
-                   } else {
-                     res.status(404).json({ message: 'No time entries found for this user' });
-                   }
+                    if (rows.length > 0) {
+                        rows.forEach(r => r.editable = (r.editable === 'true'));
+                        res.status(200).json(rows);
+                    } else {
+                        res.status(404).json({ message: 'No time entries found for this user' });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -131,20 +131,20 @@ var apiController = function () {
         }
     };
 
-    var getTimeByDate = function (req, res) {
+    var getTimeByDate = function(req, res) {
         if (!req.params.date) {
             return res.status(401).json({ message: 'Date required', required: ['date'] });
         } else if (!req.params.id) {
             return res.status(401).json({ message: 'Id required', required: ['id'] });
         } else {
-            apiModel.getTimeByDate(req.params.id, req.params.date, function (err, rows) {
+            apiModel.getTimeByDate(req.params.id, req.params.date, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     rows.forEach(r=> r.editable = (r.editable === 'true'));
-                     res.status(200).json(rows);
-                   } else {
-                     res.status(404).json({ message: 'No time entries found for this date' });
-                   }
+                    if (rows.length > 0) {
+                        rows.forEach(r => r.editable = (r.editable === 'true'));
+                        res.status(200).json(rows);
+                    } else {
+                        res.status(404).json({ message: 'No time entries found for this date' });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -152,26 +152,26 @@ var apiController = function () {
         }
     };
 
-    var getAllTimeByDate = function (req, res) {
+    var getAllTimeByDate = function(req, res) {
         if (!req.params.date) {
             return res.status(401).json({ message: 'Date required', required: ['date'] });
         } else {
-            apiModel.getAllTimeByDate(req.params.date, function (err, rows) {
+            apiModel.getAllTimeByDate(req.params.date, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     rows.forEach(r=> r.editable = (r.editable === 'true'));
-                     res.status(200).json(rows);
-                   } else {
-                     res.status(404).json({ message: 'No time entries found for '+req.params.date });
-                   }
+                    if (rows.length > 0) {
+                        rows.forEach(r => r.editable = (r.editable === 'true'));
+                        res.status(200).json(rows);
+                    } else {
+                        res.status(404).json({ message: 'No time entries found for ' + req.params.date });
+                    }
                 } else {
-                    res.status(500).json({ message: err.error } );
+                    res.status(500).json({ message: err.error });
                 }
             });
         }
     };
 
-    var getTimeByPeriod = function (req, res) {
+    var getTimeByPeriod = function(req, res) {
         if (!req.params.start) {
             return res.status(401).json({ message: 'Start date required', required: ['start'] });
         } else if (!req.params.end) {
@@ -179,14 +179,14 @@ var apiController = function () {
         } else if (!req.params.id) {
             return res.status(401).json({ message: 'Id required', required: ['id'] });
         } else {
-            apiModel.getTimeByPeriod(req.params.id, req.params.start, req.params.end, function (err, rows) {
+            apiModel.getTimeByPeriod(req.params.id, req.params.start, req.params.end, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     rows.forEach(r=> r.editable = (r.editable === 'true'));
-                     res.status(200).json(rows);
-                   } else {
-                     res.status(404).json({ message: 'No time entries found for this user'});
-                   }
+                    if (rows.length > 0) {
+                        rows.forEach(r => r.editable = (r.editable === 'true'));
+                        res.status(200).json(rows);
+                    } else {
+                        res.status(404).json({ message: 'No time entries found for this user' });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -194,19 +194,19 @@ var apiController = function () {
         }
     };
 
-    var getAllTimeByPeriod = function (req, res) {
+    var getAllTimeByPeriod = function(req, res) {
         if (!req.params.start) {
             return res.status(401).json({ message: 'Start date required', required: ['start'] });
         } else if (!req.params.end) {
             return res.status(401).json({ message: 'End date required', required: ['end'] });
         } else {
-            apiModel.getAllTimeByPeriod(req.params.start, req.params.end, function (err, rows) {
+            apiModel.getAllTimeByPeriod(req.params.start, req.params.end, function(err, rows) {
                 if (!err) {
-                   if(rows.length > 0) {
-                     res.status(200).json(rows);
-                   } else {
-                     res.status(404).json({ message: 'No time entries for the period starting '+res.body.start+' and ending '+res.body.end });
-                   }
+                    if (rows.length > 0) {
+                        res.status(200).json(rows);
+                    } else {
+                        res.status(404).json({ message: 'No time entries for the period starting ' + res.body.start + ' and ending ' + res.body.end });
+                    }
                 } else {
                     res.status(500).json({ message: err.error });
                 }
@@ -214,14 +214,46 @@ var apiController = function () {
         }
     };
 
-    var getTimeCodes = function (req, res) {
-        apiModel.getTimeCodes(function (err, rows) {
+    var getTimeCodes = function(req, res) {
+        apiModel.getTimeCodes(function(err, rows) {
             if (!err) {
-               res.status(200).json(rows);
+                res.status(200).json(rows);
             } else {
-               res.status(500).json({ message: err.error });
+                res.status(500).json({ message: err.error });
             }
         });
+    };
+
+    var setTimeByDate = function(req, res) {
+        let requiredFields = ['profileId', 'hours', 'timeCode', 'date', 'updaterId'];
+        let missingFields = [];
+        requiredFields.forEach(key => {
+            if (!req.body[key]) missingFields.concat(key);
+        });
+        if (missingFields.length) {
+            msg += "The";
+            missingRequiredFields.forEach((v, i) => {
+                if (i === 0) {
+                    msg += ` ${v}`;
+                } else if (i > 0 && i === (missingRequiredFields.length - 1)) {
+                    if (missingRequiredFields.length > 2) msg += `, `;
+                    msg += ` and ${v}`;
+                } else {
+                    msg += `, ${v}`;
+                }
+            });
+            msg += missingRequiredFields.length > 1 ? ' are' : ' is';
+            msg += " required.";
+            return res.status(401).json({ message: msg, required: missingFields });
+        } else {
+            apiModel.setTimeByDate(req.body, function(err, rows) {
+                if (!err) {
+                    res.status(200).json(rows);
+                } else {
+                    res.status(500).json({ message: err.error });
+                }
+            });
+        }
     };
 
     // fs.readFile( req.file.path, function (err, data) {
@@ -253,7 +285,8 @@ var apiController = function () {
         getTime: getTime,
         getTimeByDate: getTimeByDate,
         getTimeByPeriod: getTimeByPeriod,
-        getTimeCodes: getTimeCodes
+        getTimeCodes: getTimeCodes,
+        setTimeByDate: setTimeByDate
     };
 };
 
