@@ -32,6 +32,7 @@ var apiController = function() {
                     // }
                     res.status(200).json(rows[0]);
                 } else {
+                    console.log(err)
                     res.status(500).json({ message: err.error });
                 }
             });
